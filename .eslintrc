@@ -1,0 +1,26 @@
+{
+    "env": {
+        "browser": true,
+        "node": true
+    },
+    "parser": "babel-eslint",
+    "plugins": ["prettier"],
+    "extends": ["airbnb", "prettier", "prettier/react"],
+    "rules": {
+        "prettier/prettier": ["error"],
+        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+        "react/prop-types": 0,
+        "react/prefer-stateless-function": 0,
+        "jsx-a11y/label-has-for": [
+            2,
+            {
+                "components": ["Label"],
+                "required": {
+                    "some": ["nesting", "id"]
+                },
+                "allowChildren": false
+            }
+        ],
+        "jsx-a11y/label-has-associated-control": 0
+    }
+}
