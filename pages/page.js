@@ -8,6 +8,7 @@ class Index extends Component {
         const { slug, apiRoute } = query;
         const postsRes = await fetch(`${Config.apiUrl}pages/?slug=${slug}`);
         const posts = await postsRes.json();
+        console.log(posts);
         const { ID, post_content: content, post_title: title, post_date: date } = posts[0];
         return { ID, content, title, date };
     }
