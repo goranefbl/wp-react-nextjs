@@ -8,7 +8,6 @@ const handle = app.getRequestHandler();
 app.prepare()
     .then(() => {
         const server = express();
-
         server.get('/post/:slug', (req, res) => {
             const actualPage = '/post';
             const queryParams = { slug: req.params.slug, apiRoute: 'post' };
