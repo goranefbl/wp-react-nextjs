@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Link from 'next/link';
+import Router from 'next/router';
 
 class Nav extends Component {
     render() {
@@ -13,8 +14,10 @@ class Nav extends Component {
                             const url = menu.url.replace('https://myzonedev.com/headless/', '');
                             return (
                                 <li key={menu.ID} className="current_page_item">
-                                    <Link prefetch href={`/page?slug=${url}`} as={`/page/${url}`}>
-                                        <a>{menu.description}</a>
+                                    <Link href={`/page?slug=${url}`} as={`/page/${url}`}>
+                                        <a onMouseOver={() => Router.prefetch(`/page?slug=${url}`)}>
+                                            {menu.description}
+                                        </a>
                                     </Link>
                                 </li>
                             );
