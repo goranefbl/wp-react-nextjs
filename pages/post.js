@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import fetch from 'isomorphic-fetch';
 import { Config } from '../model/config';
-import Layout from './../components/Layout';
 import Article from '../components/Article';
 
 class Index extends Component {
@@ -10,18 +9,12 @@ class Index extends Component {
         const postsRes = await fetch(`${Config.apiUrl}posts/?slug=${slug}`);
         const posts = await postsRes.json();
         const { ID, post_content: content, post_title: title, post_date: date } = posts[0];
-        const menusRes = await fetch(`${Config.apiUrl}menus`);
-        const menus = await menusRes.json();
-        return { ID, content, title, date, menus };
+        return { ID, content, title, date };
     }
 
     render() {
-        const { ID, content, title, date, menus } = this.props;
-        return (
-            <Layout menus={menus}>
-                <Article key={ID} id={ID} content={content} title={title} date={date} />
-            </Layout>
-        );
+        const { ID, content, title, date } = this.props;
+        return <Article key={ID} id={ID} content={content} title={title} date={date} />;
     }
 }
 
