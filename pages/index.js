@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import fetch from 'isomorphic-unfetch';
+import fetch from 'isomorphic-fetch';
 import { Config } from '../model/config';
 import Layout from './../components/Layout';
 import Article from '../components/Article';
 
 class Index extends Component {
     static async getInitialProps(context) {
-        console.log('radi');
         const postsRes = await fetch(`${Config.apiUrl}posts`);
         const posts = await postsRes.json();
         const menusRes = await fetch(`${Config.apiUrl}menus`);

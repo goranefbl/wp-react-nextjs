@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import fetch from 'isomorphic-unfetch';
+import fetch from 'isomorphic-fetch';
 import { Config } from '../model/config';
 import Layout from './../components/Layout';
 import Article from '../components/Article';

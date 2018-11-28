@@ -13,7 +13,7 @@ class Nav extends Component {
                             const url = menu.url.replace('https://myzonedev.com/headless/', '');
                             return (
                                 <li key={menu.ID} className="current_page_item">
-                                    <Link href={`/page?slug=${url}`} as={`page/${url}`}>
+                                    <Link prefetch href={`/page?slug=${url}`} as={`/${url}`}>
                                         <a>{menu.description}</a>
                                     </Link>
                                 </li>

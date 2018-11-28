@@ -1,6 +1,8 @@
 {
     "version": 2,
-    "name": "nextjs",
-    "builds": [{ "src": "next.config.js", "use": "@now/next" }],
-    "files": ["static/css/"]
+    "name": "nextjsa",
+    "builds": [
+        { "src": "package.json", "use": "@now/next" },
+        { "src": "static/css/style.css", "use": "@now/static" }
+    ]
 }

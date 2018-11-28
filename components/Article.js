@@ -6,9 +6,13 @@ const Nav = props => {
         <article className="post type-post status-publish format-standard">
             <header className="entry-header">
                 <h1 className="entry-title">
-                    <Link href={`/post?slug=${props.slug}`} as={`post/${props.slug}`}>
-                        <a rel="bookmark">{props.title}</a>
-                    </Link>
+                    {props.slug ? (
+                        <Link href={`/post?slug=${props.slug}`} as={`${props.slug}`}>
+                            <a rel="bookmark">{props.title}</a>
+                        </Link>
+                    ) : (
+                        <span rel="bookmark">{props.title}</span>
+                    )}
                 </h1>
             </header>
             <div className="entry-content" dangerouslySetInnerHTML={{ __html: props.content }} />
