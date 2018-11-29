@@ -15,10 +15,6 @@ app.prepare()
     .then(() => {
         const server = express();
 
-        server.get('/', (req, res) => {
-            renderAndCache(req, res, '/');
-        });
-
         server.get('/post/:slug', (req, res) => {
             const actualPage = '/post';
             const queryParams = { slug: req.params.slug, apiRoute: 'post' };
@@ -26,6 +22,7 @@ app.prepare()
         });
 
         server.get('/page/:slug', (req, res) => {
+            console.log(req.params.slug);
             const actualPage = '/page';
             const queryParams = { slug: req.params.slug, apiRoute: 'page' };
             renderAndCache(req, res, actualPage, queryParams);
@@ -41,6 +38,10 @@ app.prepare()
             const actualPage = '/preview';
             const queryParams = { id: req.params.id, wpnonce: req.params.wpnonce };
             renderAndCache(req, res, actualPage, queryParams);
+        });
+
+        server.get('/', (req, res) => {
+            renderAndCache(req, res, '/');
         });
 
         server.get('*', (req, res) => {
@@ -61,9 +62,7 @@ async function renderAndCache(req, res, pagePath, queryParams) {
     const key = req.url;
 
     // if page is in cache, server from cache
-    console.log(key);
     if (ssrCache.has(key)) {
-        console.log(key);
         res.setHeader('x-cache', 'HIT');
         res.send(ssrCache.get(key));
         return;

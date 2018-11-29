@@ -1,6 +1,7 @@
 {
     "version": 2,
-    "name": "nextjsa",
+    "name": "wp-nextjs",
+    "public": true,
     "builds": [
         { "src": "package.json", "use": "@now/next" },
         { "src": "static/css/style.css", "use": "@now/static" }

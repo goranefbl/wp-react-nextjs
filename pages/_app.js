@@ -1,18 +1,16 @@
 import React from 'react';
 import App, { Container } from 'next/app';
 import { Config } from '../model/config';
-import fetch from 'isomorphic-fetch';
+import cachedFetch, { overrideCache } from '../utils/cachedFetch';
 import Layout from './../components/Layout';
 
 export default class MyApp extends App {
     static async getInitialProps({ Component, router, ctx }) {
         let pageProps = {};
-        const menusRes = await fetch(`${Config.apiUrl}menus`);
-        const menus = await menusRes.json();
+        const menus = await cachedFetch(`${Config.apiUrl}menus`);
         if (Component.getInitialProps) {
             pageProps = await Component.getInitialProps(ctx);
         }
-
         return { pageProps, menus };
     }
 
