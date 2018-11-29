@@ -5,5 +5,9 @@
     "builds": [
         { "src": "package.json", "use": "@now/next" },
         { "src": "static/css/style.css", "use": "@now/static" }
+    ],
+    "routes": [
+        { "src": "/page/(.*)", "dest": "/page?slug=$1" },
+        { "src": "/post/(.*)", "dest": "/post?slug=$1" }
     ]
 }
