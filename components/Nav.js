@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import Link from 'next/link';
-import Router from 'next/router';
+import Link, { prefetch } from '../utils/prefetchData';
 
 class Nav extends Component {
+    prefetchData(url) {
+        // Router.prefetch(`/page?slug=${url}`)
+        prefetch(`/page?slug=${url}`);
+    }
     render() {
         const { menus } = this.props;
         return (
@@ -15,7 +18,7 @@ class Nav extends Component {
                             return (
                                 <li key={menu.ID} className="current_page_item">
                                     <Link href={`/page?slug=${url}`} as={`/page/${url}`}>
-                                        <a onMouseOver={() => Router.prefetch(`/page?slug=${url}`)}>
+                                        <a onMouseOver={() => this.prefetchData(url)}>
                                             {menu.description}
                                         </a>
                                     </Link>

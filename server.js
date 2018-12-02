@@ -18,26 +18,26 @@ app.prepare()
         server.get('/post/:slug', (req, res) => {
             const actualPage = '/post';
             const queryParams = { slug: req.params.slug, apiRoute: 'post' };
-            renderAndCache(req, res, actualPage, queryParams);
+            renderAndCache(req, res, actualPage, queryParams); // use app.render to bypass ss cache
         });
 
         server.get('/page/:slug', (req, res) => {
             console.log(req.params.slug);
             const actualPage = '/page';
             const queryParams = { slug: req.params.slug, apiRoute: 'page' };
-            renderAndCache(req, res, actualPage, queryParams);
+            renderAndCache(req, res, actualPage, queryParams); // use app.render to bypass ss cache
         });
 
         server.get('/category/:slug', (req, res) => {
             const actualPage = '/category';
             const queryParams = { slug: req.params.slug };
-            renderAndCache(req, res, actualPage, queryParams);
+            renderAndCache(req, res, actualPage, queryParams); // use app.render to bypass ss cache
         });
 
         server.get('/_preview/:id/:wpnonce', (req, res) => {
             const actualPage = '/preview';
             const queryParams = { id: req.params.id, wpnonce: req.params.wpnonce };
-            renderAndCache(req, res, actualPage, queryParams);
+            renderAndCache(req, res, actualPage, queryParams); // use app.render to bypass ss cache
         });
 
         server.get('/', (req, res) => {
