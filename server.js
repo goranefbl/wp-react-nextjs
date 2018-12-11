@@ -15,13 +15,12 @@ app.prepare()
     .then(() => {
         const server = express();
 
-        server.get('/post/:slug', (req, res) => {
+        server.get('/:page', (req, res) => {
             const actualPage = '/post';
             const queryParams = { slug: req.params.slug, apiRoute: 'post' };
             renderAndCache(req, res, actualPage, queryParams); // use app.render to bypass ss cache
         });
-
-        server.get('/page/:slug', (req, res) => {
+        server.get('/:post', (req, res) => {
             console.log(req.params.slug);
             const actualPage = '/page';
             const queryParams = { slug: req.params.slug, apiRoute: 'page' };

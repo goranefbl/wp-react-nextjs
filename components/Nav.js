@@ -4,7 +4,7 @@ import Link, { prefetch } from '../utils/prefetchData';
 class Nav extends Component {
     prefetchData(url) {
         // Router.prefetch(`/page?slug=${url}`)
-        prefetch(`/page?slug=${url}`);
+        prefetch(`/page?page=${url}`);
     }
     render() {
         const { menus } = this.props;
@@ -17,7 +17,7 @@ class Nav extends Component {
                             const url = menu.url.replace('https://myzonedev.com/headless/', '');
                             return (
                                 <li key={menu.ID} className="current_page_item">
-                                    <Link href={`/page?slug=${url}`} as={`/page/${url}`}>
+                                    <Link href={`/page?page=${url}`} as={`/${url}`}>
                                         <a onMouseOver={() => this.prefetchData(url)}>
                                             {menu.description}
                                         </a>

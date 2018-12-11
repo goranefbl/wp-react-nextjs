@@ -7,7 +7,7 @@ const Nav = props => {
             <header className="entry-header">
                 <h1 className="entry-title">
                     {props.slug ? (
-                        <Link href={`/post?slug=${props.slug}`} as={`/post/${props.slug}`}>
+                        <Link href={`/post?post=${props.slug}`} as={`/${props.slug}`}>
                             <a rel="bookmark">{props.title}</a>
                         </Link>
                     ) : (

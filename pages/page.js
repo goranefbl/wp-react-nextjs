@@ -5,8 +5,8 @@ import Article from '../components/Article';
 
 class Index extends Component {
     static async getInitialProps(ctx) {
-        const { slug, apiRoute } = ctx.query;
-        const posts = await cachedFetch(`${Config.apiUrl}pages/?slug=${slug}`);
+        const { page, apiRoute } = ctx.query;
+        const posts = await cachedFetch(`${Config.apiUrl}pages/?slug=${page}`);
         const { ID, post_content: content, post_title: title, post_date: date } = posts[0];
         return { ID, content, title, date };
     }
