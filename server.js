@@ -1,65 +1,23 @@
+const { join } = require('path');
 const express = require('express');
 const next = require('next');
 const LRUCache = require('lru-cache');
+const compression = require('compression');
 
+const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== 'production';
-const app = next({ dev });
-const handle = app.getRequestHandler();
+const app = next({ dir: '.', dev });
 
 const ssrCache = new LRUCache({
-    max: 20, // not more than 20 results will be cached
+    max: 1024, // not more than 100 results will be cached
     maxAge: 1000 * 60 * 5 // 5 mins
 });
 
-app.prepare()
-    .then(() => {
-        const server = express();
+const handle = app.getRequestHandler();
 
-        server.get('/:page', (req, res) => {
-            const actualPage = '/post';
-            const queryParams = { slug: req.params.slug, apiRoute: 'post' };
-            renderAndCache(req, res, actualPage, queryParams); // use app.render to bypass ss cache
-        });
-        server.get('/:post', (req, res) => {
-            console.log(req.params.slug);
-            const actualPage = '/page';
-            const queryParams = { slug: req.params.slug, apiRoute: 'page' };
-            renderAndCache(req, res, actualPage, queryParams); // use app.render to bypass ss cache
-        });
-
-        server.get('/category/:slug', (req, res) => {
-            const actualPage = '/category';
-            const queryParams = { slug: req.params.slug };
-            renderAndCache(req, res, actualPage, queryParams); // use app.render to bypass ss cache
-        });
-
-        server.get('/_preview/:id/:wpnonce', (req, res) => {
-            const actualPage = '/preview';
-            const queryParams = { id: req.params.id, wpnonce: req.params.wpnonce };
-            renderAndCache(req, res, actualPage, queryParams); // use app.render to bypass ss cache
-        });
-
-        server.get('/', (req, res) => {
-            renderAndCache(req, res, '/');
-        });
-
-        server.get('*', (req, res) => {
-            return handle(req, res);
-        });
-
-        server.listen(3000, err => {
-            if (err) throw err;
-            console.log('> Ready on http://localhost:3000');
-        });
-    })
-    .catch(ex => {
-        console.error(ex.stack);
-        process.exit(1);
-    });
-
+// This is not active yet.
 async function renderAndCache(req, res, pagePath, queryParams) {
     const key = req.url;
-
     // if page is in cache, server from cache
     if (ssrCache.has(key)) {
         res.setHeader('x-cache', 'HIT');
@@ -85,3 +43,51 @@ async function renderAndCache(req, res, pagePath, queryParams) {
         app.renderError(err, req, res, pagePath, queryParams);
     }
 }
+
+app.prepare()
+    .then(() => {
+        const server = express();
+
+        server.use(compression());
+
+        server.get('/service-worker.js', (req, res) => {
+            const filePath = join(__dirname, 'build', '/service-worker.js');
+            app.serveStatic(req, res, filePath);
+        });
+
+        server.get('/:slug', (req, res) => {
+            const actualPage = '/post';
+            const queryParams = { slug: req.params.slug };
+            renderAndCache(req, res, actualPage, queryParams); // use app.render to bypass ss cache
+        });
+
+        server.get('/category/:slug', (req, res) => {
+            const actualPage = '/category';
+            const queryParams = { slug: req.params.slug };
+            renderAndCache(req, res, actualPage, queryParams); // use app.render to bypass ss cache
+        });
+
+        server.get('/_preview/:id/:wpnonce', (req, res) => {
+            const actualPage = '/preview';
+            const queryParams = {
+                id: req.params.id,
+                wpnonce: req.params.wpnonce
+            };
+            renderAndCache(req, res, actualPage, queryParams); // use app.render to bypass ss cache
+        });
+
+        server.get('/', (req, res) => {
+            renderAndCache(req, res, '/', {});
+        });
+
+        server.get('*', (req, res) => handle(req, res));
+
+        server.listen(port, err => {
+            if (err) throw err;
+            console.log(`> Ready on http://localhost:${port}`);
+        });
+    })
+    .catch(ex => {
+        console.error(ex.stack);
+        process.exit(1);
+    });

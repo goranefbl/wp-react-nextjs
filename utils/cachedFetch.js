@@ -4,6 +4,7 @@ import fetch from 'isomorphic-fetch';
 const TTL_MINUTES = 5;
 
 export default async function(url, options) {
+    // https://scale.ai/blog/increasing-the-performance-of-dynamic-next-js-websites
     // We don't cache anything when server-side rendering.
     // That way if users refresh the page they always get fresh data.
     if (typeof window === 'undefined') {

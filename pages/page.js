@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import cachedFetch, { overrideCache } from '../utils/cachedFetch';
-import { Config } from '../model/config';
+import config from '../utils/config';
 import Article from '../components/Article';
 
 class Index extends Component {
     static async getInitialProps(ctx) {
         const { page, apiRoute } = ctx.query;
-        const posts = await cachedFetch(`${Config.apiUrl}pages/?slug=${page}`);
+        const posts = await cachedFetch(`${config.route}pages/?slug=${page}`);
         const { ID, post_content: content, post_title: title, post_date: date } = posts[0];
-        return { ID, content, title, date };
+        const metaTitle = title;
+        const metaDescription = 'Meta Blog Description, you should get this from API.';
+        return { ID, content, title, date, metaTitle, metaDescription };
     }
 
     render() {

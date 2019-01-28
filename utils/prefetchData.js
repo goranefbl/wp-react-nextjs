@@ -1,6 +1,7 @@
+import React, { Children } from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
-import Router from 'next/router';
+import Router, { withRouter } from 'next/router';
 import exact from 'prop-types-exact';
 import { format, resolve, parse } from 'url';
 
@@ -27,7 +28,7 @@ export const prefetch = async href => {
 };
 
 // extend default next/link to customize the prefetch behaviour
-export default class LinkWithData extends Link {
+class LinkWithData extends Link {
     // re defined Link propTypes to add `withData`
     static propTypes = exact({
         href: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
@@ -37,7 +38,8 @@ export default class LinkWithData extends Link {
         shallow: PropTypes.bool,
         passHref: PropTypes.bool,
         scroll: PropTypes.bool,
-        withData: PropTypes.bool // our custom prop
+        withData: PropTypes.bool, // our custom prop
+        children: PropTypes.PropTypes.element.isRequired
     });
 
     // our custom prefetch method
@@ -55,3 +57,15 @@ export default class LinkWithData extends Link {
         }
     }
 }
+// Adding active class
+const LinkActive = withRouter(({ router, children, href, as, ...rest }) => (
+    <LinkWithData {...rest} href={href} as={as}>
+        {React.cloneElement(Children.only(children), {
+            className:
+                router.asPath === href || router.asPath === as
+                    ? `${children.props.className} ${children.props.className}--active`
+                    : children.props.className
+        })}
+    </LinkWithData>
+));
+export default LinkActive;
