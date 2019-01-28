@@ -6,7 +6,7 @@ module.exports = withSass(
     withImages(
         withOffline({
             distDir: 'build',
-            // scope: '/newblog',
+            scope: '.',
             // registerSwPrefix: '/newblog',
             workboxOpts: {
                 globPatterns: ['static/**/*'],
