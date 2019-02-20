@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import cachedFetch, { overrideCache } from '../utils/cachedFetch';
+import cachedFetch from '../utils/cachedFetch';
 import config from '../utils/config';
 import Article from '../components/Article';
 

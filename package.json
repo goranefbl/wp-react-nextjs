@@ -12,7 +12,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://bitbucket.org/am2studio/react-blog.git"
+        "url": "https://github.com/goranefbl/wp-react-nextjs.git"
     },
     "author": "Goran",
     "license": "MIT",
